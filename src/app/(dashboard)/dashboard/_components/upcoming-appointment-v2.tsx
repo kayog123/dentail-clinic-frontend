@@ -18,12 +18,50 @@ import {
 } from "lucide-react";
 import moment from "moment";
 import { Button } from "@/app/components/ui/button";
-import { Calendar, momentLocalizer } from "react-big-calendar";
+import { Calendar, momentLocalizer, View, Views } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import { useCallback, useState } from "react";
 
 export default function UpcomingAppointmentsV2() {
   const localizer = momentLocalizer(moment);
+  const events = [
+    {
+      title: "Dr John - Dental Care Clinic",
+      allDay: true,
+      start: new Date(2025, 8, 0),
+      end: new Date(2025, 8, 1),
+    },
+    {
+      title: "Long Event",
+      start: new Date(2025, 8, 7),
+      end: new Date(2025, 8, 10),
+    },
 
+    {
+      title: "DTS STARTS",
+      start: new Date(2025, 7, 8, 0, 0, 0),
+      end: new Date(2025, 7, 10, 0, 0, 0),
+    },
+
+    {
+      title: "DTS ENDS",
+      start: new Date(2025, 7, 14, 0, 0, 0),
+      end: new Date(2025, 7, 13, 0, 0, 0),
+    },
+    {
+      title: "Some Event",
+      start: new Date(2025, 7, 9, 0, 0, 0),
+      end: new Date(2025, 7, 0, 0, 0),
+    },
+  ];
+  const [date, setDate] = useState<Date>(new Date());
+  const [view, setView] = useState<View>(Views.WEEK);
+
+  const onNavigate = useCallback(
+    (newDate: Date) => setDate(newDate),
+    [setDate]
+  );
+  const onView = useCallback((newView: View) => setView(newView), [setView]);
   const upcomingTasks = [
     {
       id: 1,
@@ -69,13 +107,16 @@ export default function UpcomingAppointmentsV2() {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {" "}
             <Calendar
               localizer={localizer}
-              //events={[]}
+              events={events}
               startAccessor="start"
               endAccessor="end"
               style={{ height: 500 }}
+              defaultDate={date}
+              onNavigate={onNavigate}
+              onView={onView}
+              view={view}
             />
           </div>
         </CardContent>
