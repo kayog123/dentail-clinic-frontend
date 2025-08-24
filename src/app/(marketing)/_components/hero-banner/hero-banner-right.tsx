@@ -1,4 +1,4 @@
-import { delay, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import Image from "next/image";
 
 export default function HeroBannerRight() {
@@ -60,7 +60,7 @@ export default function HeroBannerRight() {
                   className="w-18 h-18 rounded-full bg-white/90 backdrop-blur-sm border border-white/20 flex items-center justify-center shadow-xl"
                   initial={{ scale: 0, x: -20 }}
                   animate={{ scale: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay }}
+                  transition={{ duration: 0.6, delay: delay }}
                   whileHover={{ scale: 1.1, rotate: 5 }}
                 >
                   <Image

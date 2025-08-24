@@ -1,5 +1,4 @@
 import Layout from "../components/general/layout";
-import Wrapper from "../components/general/wrapper";
 import About from "./_components/about";
 import CTA from "./_components/cta";
 import Hero from "./_components/hero";

@@ -1,0 +1,2 @@
+export const AUTH_SIGNUP_DONE = "DONE";
+export const AUTH_SIGNUP_CONFIRM_SIGN_UP = "CONFIRM_SIGN_UP";

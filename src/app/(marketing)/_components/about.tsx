@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { items } from "../_utils/const";
 
 export default function About() {
   return (
