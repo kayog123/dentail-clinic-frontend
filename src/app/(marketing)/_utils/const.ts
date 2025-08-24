@@ -7,52 +7,55 @@ import {
   LucideCloudLightning,
   LucideStar,
   LucideShield,
+  LucideHeart,
+  LucideClock,
+  LucideUsers,
 } from "lucide-react";
 export const PHONE_NUMBER = "(555) 123-4567";
 export const items = [
   {
     title: "Preventive Care",
-    desc: "Cleanings, exams, digital X‑rays, and gum health.",
+    desc: "Comprehensive cleanings, exams, and digital X-rays to keep your smile healthy and prevent future issues.",
     Icon: CheckIcon,
   },
   {
     title: "Cosmetic Dentistry",
-    desc: "Whitening, bonding, and veneers for confident smiles.",
+    desc: "Transform your smile with professional whitening, veneers, and bonding for confidence that shines.",
     Icon: SparkleIcon,
   },
   {
     title: "Dental Implants",
-    desc: "Modern implant solutions to replace missing teeth.",
+    desc: "Advanced implant solutions using the latest technology to restore your smile naturally and permanently.",
     Icon: ShieldIcon,
   },
   {
     title: "Orthodontics",
-    desc: "Invisalign and braces for kids, teens, and adults.",
+    desc: "Modern Invisalign and traditional braces for all ages, creating perfectly aligned smiles.",
     Icon: AlignLeftIcon,
   },
   {
-    title: "Kids Dentistry",
-    desc: "Gentle, fun visits that build lifelong habits.",
+    title: "Family Dentistry",
+    desc: "Gentle, caring dental visits for the whole family, building healthy habits that last a lifetime.",
     Icon: SmileIcon,
   },
   {
     title: "Emergency Care",
-    desc: "Same‑day relief for pain, chips, or swelling.",
+    desc: "24/7 emergency dental care for urgent situations, providing immediate relief when you need it most.",
     Icon: LucideCloudLightning,
   },
 ];
 
 export const bannerLeftItems = [
   {
-    text: "4.9★ from 500+ smiles",
+    text: "4.9★ from 500+ patients",
     Icon: LucideStar,
   },
   {
-    text: "Same‑day emergency",
+    text: "Same-day emergency care",
     Icon: LucideCloudLightning,
   },
   {
-    text: "Insurances accepted",
+    text: "All major insurances accepted",
     Icon: LucideShield,
   },
 ];

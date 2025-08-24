@@ -1,17 +1,21 @@
 import Layout from "../components/general/layout";
-import About from "./_components/about";
-import CTA from "./_components/cta";
 import Hero from "./_components/hero";
-import OfficeInfo from "./_components/office-info";
+import Features from "./_components/features";
 import Services from "./_components/services";
+import Testimonials from "./_components/testimonials";
+import About from "./_components/about";
+import OfficeInfo from "./_components/office-info";
+import CTA from "./_components/cta";
 
-export default function Home() {
+export default function MarketingPage() {
   return (
     <Layout>
-      <div className=" ">
+      <div className="overflow-hidden">
         <Hero />
-        <About />
+        <Features />
         <Services />
+        <Testimonials />
+        <About />
         <OfficeInfo />
         <CTA />
       </div>

@@ -1,6 +1,11 @@
 import Badge from "@/app/components/common/badge";
 import { motion } from "framer-motion";
-import { LucideCalendar, LucidePhone, LucideSparkle } from "lucide-react";
+import {
+  LucideCalendar,
+  LucidePhone,
+  LucideSparkle,
+  LucideCheckCircle,
+} from "lucide-react";
 import { bannerLeftItems, PHONE_NUMBER } from "../../_utils/const";
 import Link from "next/link";
 
@@ -17,19 +22,23 @@ export default function HeroBannerLeft(props: HeroBannerLeftProps) {
       initial={{ x: -50, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.8, delay: 0.4 }}
+      className="text-center lg:text-left"
     >
       {titleHeader && (
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.6 }}
-          className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-sky-50 to-cyan-50 text-sky-700 px-4 py-2 text-sm font-bold ring-2 ring-sky-100 shadow-sm"
+          className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-sky-50 to-cyan-50 text-sky-700 px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold ring-1 ring-sky-200 shadow-sm"
         >
           <motion.div
             animate={{ rotate: 360 }}
             transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
           >
-            <LucideSparkle className="h-4 w-4" data-oid="flyywh:" />
+            <LucideSparkle
+              className="h-3 w-3 sm:h-4 sm:w-4"
+              data-oid="flyywh:"
+            />
           </motion.div>
           {titleHeader}
         </motion.div>
@@ -39,7 +48,7 @@ export default function HeroBannerLeft(props: HeroBannerLeftProps) {
         initial={{ y: 30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.8 }}
-        className="mt-6 text-5xl md:text-7xl font-[800] tracking-tight bg-gradient-to-r from-slate-800 via-sky-700 to-cyan-600 bg-clip-text text-transparent leading-tight text-left"
+        className="mt-4 sm:mt-6 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-[800] tracking-tight bg-gradient-to-r from-slate-900 via-sky-700 to-cyan-600 bg-clip-text text-transparent leading-tight"
       >
         {title}
       </motion.h1>
@@ -47,21 +56,38 @@ export default function HeroBannerLeft(props: HeroBannerLeftProps) {
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, delay: 1 }}
-        className="mt-6 text-xl text-slate-600 font-medium leading-relaxed"
+        className="mt-4 sm:mt-6 text-base sm:text-lg md:text-xl lg:text-2xl text-slate-600 font-medium leading-relaxed max-w-2xl mx-auto lg:mx-0"
       >
         {desc}
       </motion.p>
+
+      {/* Trust indicators */}
+      <motion.div
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8, delay: 1.1 }}
+        className="mt-4 sm:mt-6 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 text-xs sm:text-sm text-slate-600"
+      >
+        <div className="flex items-center gap-1">
+          <LucideCheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-sky-600" />
+          <span>New patients welcome</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <LucideCheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-sky-600" />
+          <span>Most insurances accepted</span>
+        </div>
+      </motion.div>
 
       <motion.div
         initial={{ y: 30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, delay: 1.2 }}
-        className="mt-8 flex flex-col sm:flex-row items-center gap-4"
+        className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center gap-3 sm:gap-4"
         data-oid="n0f1tt9"
       >
         <MotionLink
           href="/booking"
-          className="inline-flex items-center justify-center gap-3 rounded-full bg-gradient-to-r from-sky-600 to-cyan-600 px-8 py-4 text-white font-bold shadow-xl w-full sm:w-auto text-lg"
+          className="inline-flex items-center justify-center gap-2 sm:gap-3 rounded-full bg-gradient-to-r from-sky-600 to-cyan-600 px-6 sm:px-8 py-3 sm:py-4 text-white font-bold shadow-xl w-full sm:w-auto text-base sm:text-lg hover:shadow-2xl transition-all duration-300"
           data-oid="21egn8b"
           whileHover={{
             scale: 1.05,
@@ -70,12 +96,15 @@ export default function HeroBannerLeft(props: HeroBannerLeftProps) {
           }}
           whileTap={{ scale: 0.95 }}
         >
-          <LucideCalendar className="h-6 w-6" data-oid="m_y96u." />
-          Schedule online
+          <LucideCalendar
+            className="h-5 w-5 sm:h-6 sm:w-6"
+            data-oid="m_y96u."
+          />
+          Book Your Visit
         </MotionLink>
         <motion.a
           href="tel:+15551234567"
-          className="inline-flex items-center justify-center gap-3 rounded-full border-2 border-sky-200 bg-white px-8 py-4 text-sky-700 font-bold hover:bg-sky-50 transition w-full sm:w-auto text-lg shadow-lg"
+          className="inline-flex items-center justify-center gap-2 sm:gap-3 rounded-full border-2 border-sky-200 bg-white px-6 sm:px-8 py-3 sm:py-4 text-sky-700 font-bold hover:bg-sky-50 transition w-full sm:w-auto text-base sm:text-lg shadow-lg"
           data-oid="-cfx2pe"
           whileHover={{
             scale: 1.05,
@@ -84,7 +113,7 @@ export default function HeroBannerLeft(props: HeroBannerLeftProps) {
           }}
           whileTap={{ scale: 0.95 }}
         >
-          <LucidePhone className="h-6 w-6" data-oid="pvl.493" />
+          <LucidePhone className="h-5 w-5 sm:h-6 sm:w-6" data-oid="pvl.493" />
           Call {PHONE_NUMBER}
         </motion.a>
       </motion.div>
@@ -93,7 +122,7 @@ export default function HeroBannerLeft(props: HeroBannerLeftProps) {
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, delay: 1.4 }}
-        className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm"
+        className="mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 text-xs sm:text-sm"
       >
         {bannerLeftItems.map(({ text, Icon }) => (
           <motion.div
@@ -102,7 +131,9 @@ export default function HeroBannerLeft(props: HeroBannerLeftProps) {
             data-oid="t7tedv4"
           >
             <Badge
-              icon={<Icon className="h-5 w-5" data-oid="sskjj8z" />}
+              icon={
+                <Icon className="h-4 w-4 sm:h-5 sm:w-5" data-oid="sskjj8z" />
+              }
               text={text}
             />
           </motion.div>
