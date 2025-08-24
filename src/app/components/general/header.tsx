@@ -28,10 +28,13 @@ export default function Header() {
             </nav>
           </div>
           <div>
-            <button className="bg-gradient-to-r from-sky-600 to-cyan-600  rounded-full font-[300] text-white px-4 py-2 flex space-x items-center">
-              <span>Login</span>
+            <Link
+              href="/signin"
+              className="bg-gradient-to-r from-sky-600 to-cyan-600  rounded-full font-[300] text-white px-4 py-2 flex space-x items-center"
+            >
+              <span>Sign In</span>
               <LucideArrowRight className="ml-2 h-4 w-4" />
-            </button>
+            </Link>
           </div>
           <div className="mr-2 -my-2 md:hidden">
             <button

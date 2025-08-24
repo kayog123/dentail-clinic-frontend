@@ -2,7 +2,9 @@
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
-
+html {
+  scroll-behavior: smooth;
+}
 :root {
   --radius: 0.625rem;
   --warning: oklch(0.84 0.16 84);

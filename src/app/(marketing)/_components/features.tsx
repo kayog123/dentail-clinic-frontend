@@ -52,6 +52,7 @@ const features = [
 export default function Features() {
   return (
     <motion.section
+      id="why_choose_us"
       className="mx-auto max-w-7xl px-4 sm:px-6 py-12 sm:py-16 md:py-20 bg-gradient-to-b from-slate-50 to-white"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}

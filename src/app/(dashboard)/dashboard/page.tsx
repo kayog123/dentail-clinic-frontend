@@ -1,6 +1,8 @@
 import { Button } from "@/app/components/ui/button";
 import { Calendar, Users } from "lucide-react";
 import UpcomingAppointmentsV2 from "./_components/upcoming-appointment-v2";
+import ReactQueryExample from "./_components/react-query-example";
+import UserInfoExample from "./_components/user-info-example";
 
 // Mock data for demonstration
 
@@ -32,6 +34,12 @@ export default function DashboardPage() {
       {/* <DashboardStatsGrid /> */}
       {/* Main Content Grid */}
       <UpcomingAppointmentsV2 />
+
+      {/* User Info Example */}
+      {/*   <UserInfoExample />*/}
+
+      {/* React Query Example */}
+      <ReactQueryExample />
     </div>
   );
 }

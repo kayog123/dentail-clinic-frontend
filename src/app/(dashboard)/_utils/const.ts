@@ -60,12 +60,12 @@ export const MENU_ITEMS = [
   // },
   {
     title: "Notifications",
-    href: "/dashboard/notifications",
+    href: "/notifications",
     icon: Bell,
   },
   {
     title: "Settings",
-    href: "/dashboard/settings",
+    href: "/settings/profile",
     icon: Settings,
   },
 ];

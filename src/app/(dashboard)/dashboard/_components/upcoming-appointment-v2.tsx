@@ -55,7 +55,7 @@ export default function UpcomingAppointmentsV2() {
     },
   ];
   const [date, setDate] = useState<Date>(new Date());
-  const [view, setView] = useState<View>(Views.WEEK);
+  const [view, setView] = useState<View>(Views.MONTH);
 
   const onNavigate = useCallback(
     (newDate: Date) => setDate(newDate),

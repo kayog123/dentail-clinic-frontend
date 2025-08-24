@@ -14,15 +14,23 @@ import {
 } from "lucide-react";
 import signOutUser from "@/app/lib/aws-helper-fn";
 import { redirect } from "next/navigation";
+import Link from "next/link";
+import { useUserProfile } from "../_hooks/use-user";
 
 export function DashboardHeader() {
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const { user, fullName, initials, isLoading } = useUserProfile();
 
   const logoutUserHandler = async () => {
     setShowUserMenu(false);
     await signOutUser();
     redirect("signin");
   };
+
+  // Display name logic
+  const displayName = fullName || user?.name || "User";
+  const displayRole = "Patient"; // You can make this dynamic based on user attributes if needed
+  const displayEmail = user?.email || "user@example.com";
 
   return (
     <header className="flex h-16 items-center justify-between border-b bg-card px-6">
@@ -51,9 +59,11 @@ export function DashboardHeader() {
         </Button>
 
         {/* Settings */}
-        <Button variant="ghost" size="icon" className="h-9 w-9">
-          <Settings className="h-4 w-4" />
-        </Button>
+        <Link href="/settings/profile">
+          <Button variant="ghost" size="icon" className="h-9 w-9">
+            <Settings className="h-4 w-4" />
+          </Button>
+        </Link>
 
         {/* User Menu */}
         <div className="relative">
@@ -63,11 +73,21 @@ export function DashboardHeader() {
             onClick={() => setShowUserMenu(!showUserMenu)}
           >
             <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center">
-              <User className="h-4 w-4 text-primary-foreground" />
+              {isLoading ? (
+                <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent" />
+              ) : initials ? (
+                <span className="text-xs font-medium text-primary-foreground">
+                  {initials}
+                </span>
+              ) : (
+                <User className="h-4 w-4 text-primary-foreground" />
+              )}
             </div>
             <div className="hidden md:block text-left">
-              <div className="text-sm font-medium">Dr. Sarah Johnson</div>
-              <div className="text-xs text-muted-foreground">Dentist</div>
+              <div className="text-sm font-medium">
+                {isLoading ? "Loading..." : displayName}
+              </div>
+              <div className="text-xs text-muted-foreground">{displayRole}</div>
             </div>
             <ChevronDown className="h-4 w-4" />
           </Button>
@@ -76,20 +96,22 @@ export function DashboardHeader() {
           {showUserMenu && (
             <div className="absolute right-0 top-full mt-2 w-56 rounded-md border bg-card shadow-lg z-50">
               <div className="p-4 border-b">
-                <div className="text-sm font-medium">Dr. Sarah Johnson</div>
+                <div className="text-sm font-medium">{displayName}</div>
                 <div className="text-xs text-muted-foreground">
-                  sarah.johnson@dentalcare.com
+                  {displayEmail}
                 </div>
               </div>
               <div className="p-2">
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start"
-                  onClick={() => setShowUserMenu(false)}
-                >
-                  <User className="mr-2 h-4 w-4" />
-                  Profile
-                </Button>
+                <Link href="/settings/profile">
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start"
+                    onClick={() => setShowUserMenu(false)}
+                  >
+                    <User className="mr-2 h-4 w-4" />
+                    Profile
+                  </Button>
+                </Link>
                 <Button
                   variant="ghost"
                   className="w-full justify-start"

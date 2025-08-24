@@ -66,15 +66,19 @@ export const MENU_LIST = [
     href: "/",
   },
   {
-    name: "About",
-    href: "/about",
+    name: "Why Choose Us",
+    href: "#why_choose_us",
   },
   {
     name: "Services",
-    href: "/services",
+    href: "#services",
   },
   {
-    name: "Contact",
-    href: "/contact",
+    name: "Testimonials",
+    href: "#testimonials",
+  },
+  {
+    name: "Our Office",
+    href: "#office",
   },
 ];
