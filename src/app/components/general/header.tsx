@@ -1,6 +1,7 @@
 import { LucideArrowRight } from "lucide-react";
 import Wrapper from "./wrapper";
 import { MENU_LIST } from "@/app/(marketing)/_utils/const";
+import Link from "next/link";
 
 export default function Header() {
   return (
@@ -15,12 +16,12 @@ export default function Header() {
               <ul className="flex items-center gap-4">
                 {MENU_LIST.map(({ name, href }) => (
                   <li key={name}>
-                    <a
+                    <Link
                       href={href}
                       className="text-gray-500 hover:text-gray-900"
                     >
                       {name}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
