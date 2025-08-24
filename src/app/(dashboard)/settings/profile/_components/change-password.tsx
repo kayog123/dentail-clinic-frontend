@@ -18,6 +18,13 @@ import {
   changePasswordSchema,
   type ChangePasswordFormData,
 } from "../_helper/profile-validation";
+import { toast } from "sonner";
+import { updatePassword } from "aws-amplify/auth";
+import { Amplify } from "aws-amplify";
+import { awsConfig } from "@/app/lib/aws-config";
+import { getError } from "@/app/lib/error";
+
+Amplify.configure(awsConfig);
 
 export default function ChangePassword() {
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
@@ -44,11 +51,11 @@ export default function ChangePassword() {
     setIsSubmitting(true);
     try {
       // TODO: Implement password change API call
-      console.log("Password change data:", data);
-
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
+      await updatePassword({
+        oldPassword: data.currentPassword,
+        newPassword: data.newPassword,
+      });
+      toast.success("Your password has been changed successfully.");
       // Reset form on success
       reset();
 
@@ -56,7 +63,8 @@ export default function ChangePassword() {
       console.log("Password changed successfully");
     } catch (error) {
       // TODO: Handle error and show error message
-      console.error("Error changing password:", error);
+      console.log(error);
+      toast.error(`Failed to update password.${getError(error).message}`);
     } finally {
       setIsSubmitting(false);
     }

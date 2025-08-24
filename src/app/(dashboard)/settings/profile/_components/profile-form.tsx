@@ -389,13 +389,6 @@ export default function ProfileForm() {
               </div>
             </div>
 
-            {/* Debug Info - Remove this in production */}
-            <div className="text-xs text-gray-500 mt-2">
-              Form State: isDirty={formState.isDirty.toString()}, isSubmitting=
-              {formState.isSubmitting.toString()}, isInitialized=
-              {isFormInitialized.toString()}
-            </div>
-
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 pt-6 border-t">
               <Button

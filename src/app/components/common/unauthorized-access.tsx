@@ -16,7 +16,7 @@ export default function UnauthorizedAccess({
         <div className="flex flex-col gap-2 items-center justify-center w-full sm:min-w-[400px] max-w-[400px]">
           <h3 className="text-3xl font-bold">Unauthorized Access</h3>
           <p>{text}</p>
-          <Link href={authMode == "admin" ? "/sign in" : "/dashboard"}>
+          <Link href={authMode == "admin" ? "/signin" : "/dashboard"}>
             <Button className="btn btn-primary mt-6">
               Go back to {authMode == "admin" ? "sign in" : "dashboard"}
             </Button>

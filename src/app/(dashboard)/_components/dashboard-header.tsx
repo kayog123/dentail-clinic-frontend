@@ -112,14 +112,14 @@ export function DashboardHeader() {
                     Profile
                   </Button>
                 </Link>
-                <Button
+                {/* <Button
                   variant="ghost"
                   className="w-full justify-start"
                   onClick={() => setShowUserMenu(false)}
                 >
                   <Settings className="mr-2 h-4 w-4" />
-                  Settings
-                </Button>
+                  Settings 
+                </Button>*/}
                 <Button
                   variant="ghost"
                   className="w-full justify-start text-destructive hover:text-destructive"
