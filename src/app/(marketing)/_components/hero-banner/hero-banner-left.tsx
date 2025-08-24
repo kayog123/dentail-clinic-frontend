@@ -2,6 +2,7 @@ import Badge from "@/app/components/common/badge";
 import { motion } from "framer-motion";
 import { LucideCalendar, LucidePhone, LucideSparkle } from "lucide-react";
 import { bannerLeftItems, PHONE_NUMBER } from "../../_utils/const";
+import Link from "next/link";
 
 type HeroBannerLeftProps = {
   titleHeader?: string;
@@ -10,6 +11,7 @@ type HeroBannerLeftProps = {
 };
 export default function HeroBannerLeft(props: HeroBannerLeftProps) {
   const { title, desc, titleHeader } = props;
+  const MotionLink = motion(Link);
   return (
     <motion.div
       initial={{ x: -50, opacity: 0 }}
@@ -57,8 +59,8 @@ export default function HeroBannerLeft(props: HeroBannerLeftProps) {
         className="mt-8 flex flex-col sm:flex-row items-center gap-4"
         data-oid="n0f1tt9"
       >
-        <motion.a
-          href="#schedule"
+        <MotionLink
+          href="/booking"
           className="inline-flex items-center justify-center gap-3 rounded-full bg-gradient-to-r from-sky-600 to-cyan-600 px-8 py-4 text-white font-bold shadow-xl w-full sm:w-auto text-lg"
           data-oid="21egn8b"
           whileHover={{
@@ -70,7 +72,7 @@ export default function HeroBannerLeft(props: HeroBannerLeftProps) {
         >
           <LucideCalendar className="h-6 w-6" data-oid="m_y96u." />
           Schedule online
-        </motion.a>
+        </MotionLink>
         <motion.a
           href="tel:+15551234567"
           className="inline-flex items-center justify-center gap-3 rounded-full border-2 border-sky-200 bg-white px-8 py-4 text-sky-700 font-bold hover:bg-sky-50 transition w-full sm:w-auto text-lg shadow-lg"

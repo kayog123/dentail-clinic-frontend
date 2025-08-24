@@ -1,15 +1,15 @@
 import {
   Calendar,
-  Users,
-  FileText,
+  //Users,
+  //FileText,
   Settings,
-  BarChart3,
-  CreditCard,
+  //BarChart3,
+  //CreditCard,
   Bell,
   Home,
-  Stethoscope,
-  Clock,
-  UserCheck,
+  //Stethoscope,
+  //Clock,
+  //UserCheck,
 } from "lucide-react";
 
 export const MENU_ITEMS = [
