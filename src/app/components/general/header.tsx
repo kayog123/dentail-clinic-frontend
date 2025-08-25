@@ -1,15 +1,23 @@
+"use client";
+
 import { LucideArrowRight } from "lucide-react";
 import Wrapper from "./wrapper";
 import { MENU_LIST } from "@/app/(marketing)/_utils/const";
 import Link from "next/link";
+import { useAuth } from "@/app/hooks/use-auth";
+import UserProfileSimple from "./user-profile-simple";
 
 export default function Header() {
+  const { isAuthenticated, isLoading } = useAuth();
+
   return (
     <header className="bg-white">
       <Wrapper className="flex items-center justify-between py-4 text-black">
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center">
-            <a href="#">Logo</a>
+            <Link href="/" className="text-xl font-bold text-sky-600">
+              DentalCare
+            </Link>
           </div>
           <div className="hidden md:block">
             <nav>
@@ -18,7 +26,7 @@ export default function Header() {
                   <li key={name}>
                     <Link
                       href={href}
-                      className="text-gray-500 hover:text-gray-900"
+                      className="text-gray-500 hover:text-gray-900 transition-colors"
                     >
                       {name}
                     </Link>
@@ -27,14 +35,26 @@ export default function Header() {
               </ul>
             </nav>
           </div>
-          <div>
-            <Link
-              href="/signin"
-              className="bg-gradient-to-r from-sky-600 to-cyan-600  rounded-full font-[300] text-white px-4 py-2 flex space-x items-center"
-            >
-              <span>Sign In</span>
-              <LucideArrowRight className="ml-2 h-4 w-4" />
-            </Link>
+          <div className="flex items-center gap-4">
+            {isLoading ? (
+              // Loading state
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-gray-200 rounded-full animate-pulse"></div>
+                <div className="w-20 h-4 bg-gray-200 rounded animate-pulse"></div>
+              </div>
+            ) : isAuthenticated ? (
+              // User is logged in - show profile
+              <UserProfileSimple />
+            ) : (
+              // User is not logged in - show sign in button
+              <Link
+                href="/signin"
+                className="bg-gradient-to-r from-sky-600 to-cyan-600 rounded-full font-[300] text-white px-4 py-2 flex items-center gap-2 hover:from-sky-700 hover:to-cyan-700 transition-all"
+              >
+                <span>Sign In</span>
+                <LucideArrowRight className="h-4 w-4" />
+              </Link>
+            )}
           </div>
           <div className="mr-2 -my-2 md:hidden">
             <button
