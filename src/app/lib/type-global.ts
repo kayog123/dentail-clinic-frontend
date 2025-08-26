@@ -1,0 +1,18 @@
+export enum AppointmentStatusType {
+  PENDING = "PENDING",
+  APPROVED = "APPROVED",
+  REJECTED = "REJECTED",
+  CANCELLED = "",
+  COMPLETED = "CANCELLED",
+  RESCHEDULED = "RESCHEDULED",
+}
+
+export enum AppointmentTypeEnum {
+  NPE = "NPE",
+  NPE_NP_SRP = "NPE_NP_SRP",
+  CLEANING = "CLEANING",
+  FILLING = "FILLING",
+  EXTRACTION = "EXTRACTION",
+  ROOT_CANAL = "ROOT_CANAL",
+  CROWN = "CROWN",
+}

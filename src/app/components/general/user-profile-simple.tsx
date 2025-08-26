@@ -36,7 +36,7 @@ export default function UserProfileSimple() {
 
   const fetchUserData = async () => {
     try {
-      const currentUser = await getCurrentUser();
+      await getCurrentUser();
       const attributes = await fetchUserAttributes();
 
       setUser({
@@ -150,4 +150,3 @@ export default function UserProfileSimple() {
     </DropdownMenu>
   );
 }
-

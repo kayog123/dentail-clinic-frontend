@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { AppointmentTypeProps } from "../(marketing)/_utils/type";
 
+export type TypePreferrenceProps = "MORNING" | "AFTERNOON" | "ANYTIME";
 export interface BookingFormData {
   // Step 1: User Details
   patientType: "new" | "existing";
@@ -18,26 +20,21 @@ export interface BookingFormData {
   groupNumber: string;
 
   // Step 3: Preferences
-  appointmentType: string;
+  appointmentType: AppointmentTypeProps | undefined;
   datePreference: string;
   provider: string;
   dayPreferences: string[];
-  timePreference: string;
+  timePreference: TypePreferrenceProps | undefined;
 
   // Step 4: Available Appointments
   selectedAppointment?: {
-    id: string;
-    date: string;
     time: string;
-    provider: string;
   };
 }
 
 interface BookingState {
   currentStep: number;
   formData: BookingFormData;
-  isSubmitting: boolean;
-  error: string | null;
 }
 
 const initialState: BookingState = {
@@ -55,14 +52,12 @@ const initialState: BookingState = {
     subscriberName: "",
     subscriberId: "",
     groupNumber: "",
-    appointmentType: "",
+    appointmentType: undefined,
     datePreference: "",
     provider: "",
     dayPreferences: [],
-    timePreference: "",
+    timePreference: undefined,
   },
-  isSubmitting: false,
-  error: null,
 };
 
 const bookingSlice = createSlice({
@@ -88,17 +83,10 @@ const bookingSlice = createSlice({
     ) => {
       state.formData = { ...state.formData, ...action.payload };
     },
-    setSubmitting: (state, action: PayloadAction<boolean>) => {
-      state.isSubmitting = action.payload;
-    },
-    setError: (state, action: PayloadAction<string | null>) => {
-      state.error = action.payload;
-    },
+
     resetBooking: (state) => {
       state.currentStep = 1;
       state.formData = initialState.formData;
-      state.isSubmitting = false;
-      state.error = null;
     },
   },
 });
@@ -108,8 +96,6 @@ export const {
   nextStep,
   prevStep,
   updateFormData,
-  setSubmitting,
-  setError,
   resetBooking,
 } = bookingSlice.actions;
 

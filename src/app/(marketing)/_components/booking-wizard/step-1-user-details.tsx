@@ -1,32 +1,22 @@
 "use client";
 
 import React from "react";
-import { Input } from "../../../components/ui/input";
-import { Button } from "../../../components/ui/button";
+import { Input } from "@/app/components/ui/input";
+import { Button } from "@/app/components/ui/button";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../store";
-import { updateFormData, nextStep } from "../../../store/bookingSlice";
+import { RootState } from "@/app/store";
+import { updateFormData, nextStep } from "@/app/store/bookingSlice";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 
-const userDetailsSchema = yup.object({
-  firstName: yup.string().required("First name is required"),
-  lastName: yup.string().required("Last name is required"),
-  dob: yup.string().required("Date of birth is required"),
-  email: yup.string().email("Invalid email").required("Email is required"),
-  phone: yup.string().required("Phone number is required"),
-});
-
-type UserDetailsFormData = {
-  firstName: string;
-  lastName: string;
-  dob: string;
-  email: string;
-  phone: string;
-  patientType: "new" | "existing";
-  notes: string;
-};
+import FormInputComponent, {
+  InputFormRegisterProps,
+} from "@/app/(auth)/_components/form-input-component";
+import { Mail, User } from "lucide-react";
+import {
+  UserDetailsFormData,
+  userDetailsSchema,
+} from "@/app/(marketing)/_helper/form-validation/user-details-validation";
 
 export default function Step1UserDetails() {
   const dispatch = useDispatch();
@@ -37,31 +27,23 @@ export default function Step1UserDetails() {
     handleSubmit,
     watch,
     setValue,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<UserDetailsFormData>({
     resolver: yupResolver(userDetailsSchema),
     defaultValues: {
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      dob: formData.dob,
-      email: formData.email,
-      phone: formData.phone,
-      patientType: formData.patientType,
-      notes: formData.notes,
+      firstName: formData.firstName || "",
+      lastName: formData.lastName || "",
+      dob: formData.dob || "",
+      email: formData.email || "",
+      notes: formData.notes || " ",
     },
-    mode: "onChange",
   });
 
-  const patientType = watch("patientType");
+  //const patientType = watch("patientType");
 
   const onSubmit = (data: UserDetailsFormData) => {
     dispatch(updateFormData(data));
     dispatch(nextStep());
-  };
-
-  const handlePatientTypeChange = (type: "new" | "existing") => {
-    setValue("patientType", type);
-    dispatch(updateFormData({ patientType: type }));
   };
 
   return (
@@ -69,71 +51,29 @@ export default function Step1UserDetails() {
       <div>
         <h3 className="text-lg font-semibold mb-4">Patient Information</h3>
 
-        {/* Patient Type Selection */}
-        <div className="mb-6">
-          <p className="text-sm font-medium text-gray-700 mb-3">
-            This appointment is for
-          </p>
-          <div className="flex gap-4">
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="radio"
-                checked={patientType === "new"}
-                onChange={() => handlePatientTypeChange("new")}
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
-              />
-              <span className="text-sm font-medium text-gray-700">
-                New patient
-              </span>
-            </label>
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="radio"
-                checked={patientType === "existing"}
-                onChange={() => handlePatientTypeChange("existing")}
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
-              />
-              <span className="text-sm font-medium text-gray-700">
-                Existing patient
-              </span>
-            </label>
-          </div>
-        </div>
-
         {/* Form Fields */}
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                First name *
-              </label>
-              <Input
-                placeholder="First name"
-                {...register("firstName")}
-                className={errors.firstName ? "border-red-300" : ""}
-              />
-              {errors.firstName && (
-                <p className="mt-1 text-xs text-red-600">
-                  {errors.firstName.message}
-                </p>
-              )}
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Last name *
-              </label>
-              <Input
-                placeholder="Last name"
-                {...register("lastName")}
-                className={errors.lastName ? "border-red-300" : ""}
-              />
-              {errors.lastName && (
-                <p className="mt-1 text-xs text-red-600">
-                  {errors.lastName.message}
-                </p>
-              )}
-            </div>
+            <FormInputComponent
+              formTitle="firstName"
+              placeholder="Patient's Given Name"
+              fieldName="First Name *"
+              fieldKey="firstName"
+              fieldType="text"
+              register={register as InputFormRegisterProps}
+              errors={errors}
+              Icon={User}
+            />
+            <FormInputComponent
+              formTitle="lastName"
+              placeholder="Patient's Last Name"
+              fieldName="Last Name *"
+              fieldKey="lastName"
+              fieldType="text"
+              register={register as InputFormRegisterProps}
+              errors={errors}
+              Icon={User}
+            />
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -151,39 +91,16 @@ export default function Step1UserDetails() {
               )}
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Email *
-              </label>
-              <Input
-                type="email"
-                placeholder="Email"
-                {...register("email")}
-                className={errors.email ? "border-red-300" : ""}
-              />
-              {errors.email && (
-                <p className="mt-1 text-xs text-red-600">
-                  {errors.email.message}
-                </p>
-              )}
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Phone number *
-              </label>
-              <Input
-                type="tel"
-                placeholder="Phone number"
-                {...register("phone")}
-                className={errors.phone ? "border-red-300" : ""}
-              />
-              {errors.phone && (
-                <p className="mt-1 text-xs text-red-600">
-                  {errors.phone.message}
-                </p>
-              )}
-            </div>
+            <FormInputComponent
+              formTitle="email"
+              placeholder="Email address"
+              fieldName="Email *"
+              fieldKey="email"
+              fieldType="text"
+              register={register as InputFormRegisterProps}
+              errors={errors}
+              Icon={Mail}
+            />
           </div>
 
           <div>
@@ -201,7 +118,6 @@ export default function Step1UserDetails() {
           <div className="flex justify-end pt-4">
             <Button
               type="submit"
-              disabled={!isValid}
               className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2"
             >
               Next: Insurance Information

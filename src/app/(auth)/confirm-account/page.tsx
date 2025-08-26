@@ -33,11 +33,7 @@ export default function ConfirmAccount(props: {
     code: string;
   }) {
     try {
-      const {
-        nextStep: confirmSignUpNextStep,
-        userId,
-        isSignUpComplete,
-      } = await confirmSignUp({
+      const { nextStep: confirmSignUpNextStep } = await confirmSignUp({
         username: email,
         confirmationCode: code,
       });

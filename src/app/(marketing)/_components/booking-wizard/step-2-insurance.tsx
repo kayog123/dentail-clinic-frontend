@@ -12,39 +12,10 @@ import {
 } from "../../../store/bookingSlice";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-
-const insuranceSchema = yup.object({
-  hasInsurance: yup.boolean(),
-  insuranceName: yup.string().when("hasInsurance", {
-    is: true,
-    then: (schema) => schema.required("Insurance name is required"),
-    otherwise: (schema) => schema.optional(),
-  }),
-  subscriberName: yup.string().when("hasInsurance", {
-    is: true,
-    then: (schema) => schema.required("Subscriber name is required"),
-    otherwise: (schema) => schema.optional(),
-  }),
-  subscriberId: yup.string().when("hasInsurance", {
-    is: true,
-    then: (schema) => schema.required("Subscriber ID is required"),
-    otherwise: (schema) => schema.optional(),
-  }),
-  groupNumber: yup.string().when("hasInsurance", {
-    is: true,
-    then: (schema) => schema.required("Group number is required"),
-    otherwise: (schema) => schema.optional(),
-  }),
-});
-
-type InsuranceFormData = {
-  hasInsurance: boolean;
-  insuranceName: string;
-  subscriberName: string;
-  subscriberId: string;
-  groupNumber: string;
-};
+import {
+  InsuranceFormData,
+  insuranceSchema,
+} from "../../_helper/form-validation/patient-dental-validation";
 
 export default function Step2Insurance() {
   const dispatch = useDispatch();
@@ -55,7 +26,7 @@ export default function Step2Insurance() {
     handleSubmit,
     watch,
     setValue,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<InsuranceFormData>({
     resolver: yupResolver(insuranceSchema),
     defaultValues: {
@@ -111,8 +82,9 @@ export default function Step2Insurance() {
         </div>
 
         {/* Insurance Form */}
-        {hasInsurance && (
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          {hasInsurance && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -178,52 +150,32 @@ export default function Step2Insurance() {
                 )}
               </div>
             </div>
-
-            <div className="flex justify-between pt-4">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => dispatch(prevStep())}
-                className="px-6 py-2"
-              >
-                Previous
-              </Button>
-              <Button
-                type="submit"
-                disabled={!isValid}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2"
-              >
-                Next: Appointment Preferences
-              </Button>
+          )}
+          {/* No Insurance - Skip to Next */}
+          {!hasInsurance && (
+            <div className="space-y-4">
+              <p className="text-sm text-gray-600">
+                No problem! You can proceed without insurance information.
+              </p>
             </div>
-          </form>
-        )}
-
-        {/* No Insurance - Skip to Next */}
-        {!hasInsurance && (
-          <div className="space-y-4">
-            <p className="text-sm text-gray-600">
-              No problem! You can proceed without insurance information.
-            </p>
-            <div className="flex justify-between pt-4">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => dispatch(prevStep())}
-                className="px-6 py-2"
-              >
-                Previous
-              </Button>
-              <Button
-                type="button"
-                onClick={() => dispatch(nextStep())}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2"
-              >
-                Next: Appointment Preferences
-              </Button>
-            </div>
+          )}
+          <div className="flex justify-between pt-4">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => dispatch(prevStep())}
+              className="px-6 py-2"
+            >
+              Previous
+            </Button>
+            <Button
+              type="submit"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2"
+            >
+              Next: Appointment Preferences
+            </Button>
           </div>
-        )}
+        </form>
       </div>
     </div>
   );

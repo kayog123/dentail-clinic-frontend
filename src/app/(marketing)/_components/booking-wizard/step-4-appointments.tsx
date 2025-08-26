@@ -1,92 +1,69 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "../../../components/ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import {
   updateFormData,
-  setSubmitting,
-  setError,
   resetBooking,
+  prevStep,
+  TypePreferrenceProps,
 } from "../../../store/bookingSlice";
+import AppointmentCardSlot from "../appointment-card";
+import { useAppointmentDentist } from "../../_hooks/use-appointment-dentist";
+import moment from "moment";
+import { formatDate } from "../../_helper/helperFn";
+import NoAppointment from "../no-appointment";
+import { getError } from "@/app/lib/error";
+import { toast } from "sonner";
 import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "../../../components/ui/card";
+  CreateAppointmentParams,
+  useCreateAppointment,
+} from "../../_hooks/use-create-appointment";
+import { AppointmentStatusType } from "@/app/lib/type-global";
+import { getCurrentUser } from "aws-amplify/auth";
+import { Amplify } from "aws-amplify";
+import { awsConfig } from "@/app/lib/aws-config";
+import { Alert, AlertDescription, AlertTitle } from "@/app/components/ui/alert";
+import { AlertCircle } from "lucide-react";
+import Link from "next/link";
 
-interface AppointmentSlot {
-  id: string;
-  date: string;
-  time: string;
-  provider: string;
-  available: boolean;
-}
+Amplify.configure(awsConfig);
 
 export default function Step4Appointments() {
   const dispatch = useDispatch();
-  const { formData, isSubmitting, error } = useSelector(
-    (state: RootState) => state.booking
-  );
+  const [errorMsg, setErrorMsg] = useState<string>("");
+  const [isSubmitting, setSubmitting] = useState<boolean>(false);
+  const [isSignIn, setIsSignIn] = useState<boolean>(true);
+  const { formData } = useSelector((state: RootState) => state.booking);
   const [selectedAppointment, setSelectedAppointment] = useState<string | null>(
     null
   );
-  const [availableSlots, setAvailableSlots] = useState<AppointmentSlot[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
 
-  // Simulate fetching available appointments based on preferences
+  const {
+    appointment: availableAppointment,
+    isLoading: isLoadingAppointment,
+    error: isErrorAppointment,
+  } = useAppointmentDentist({
+    dentistId: formData.provider,
+    startOfDay: moment(formData.datePreference).toDate(),
+    endOfDay: moment(formData.datePreference).add(1, "day").toDate(),
+    timePreference: formData.timePreference as TypePreferrenceProps,
+  });
+
+  const createAppointment = useCreateAppointment();
+
   useEffect(() => {
-    const fetchAppointments = async () => {
-      setIsLoading(true);
-      // Simulate API call delay
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      // Generate mock available appointments based on preferences
-      const mockSlots: AppointmentSlot[] = [
-        {
-          id: "1",
-          date: "2024-01-15",
-          time: "09:00 AM",
-          provider: "ALNUAIMI, NOOR DMD",
-          available: true,
-        },
-        {
-          id: "2",
-          date: "2024-01-15",
-          time: "10:30 AM",
-          provider: "Patel, Hema DDS",
-          available: true,
-        },
-        {
-          id: "3",
-          date: "2024-01-16",
-          time: "02:00 PM",
-          provider: "RAMGIR, BEHNOOSH",
-          available: true,
-        },
-        {
-          id: "4",
-          date: "2024-01-17",
-          time: "11:00 AM",
-          provider: "Sengson, John DDS",
-          available: true,
-        },
-        {
-          id: "5",
-          date: "2024-01-18",
-          time: "03:30 PM",
-          provider: "ALNUAIMI, NOOR DMD",
-          available: true,
-        },
-      ];
-
-      setAvailableSlots(mockSlots);
-      setIsLoading(false);
-    };
-
-    fetchAppointments();
+    async function checkUserSignedIn() {
+      try {
+        const { signInDetails } = await getCurrentUser();
+        setIsSignIn(!!signInDetails); // User is signed in
+      } catch (error: unknown) {
+        setIsSignIn(false);
+      }
+    }
+    checkUserSignedIn();
   }, []);
 
   const handleAppointmentSelect = (appointmentId: string) => {
@@ -95,70 +72,97 @@ export default function Step4Appointments() {
 
   const handleSubmitBooking = async () => {
     if (!selectedAppointment) {
-      dispatch(setError("Please select an appointment slot"));
+      setErrorMsg("Please select an appointment slot");
       return;
     }
 
-    const selectedSlot = availableSlots.find(
-      (slot) => slot.id === selectedAppointment
-    );
-    if (!selectedSlot) {
-      dispatch(setError("Selected appointment slot not found"));
-      return;
-    }
-
-    dispatch(setSubmitting(true));
-    dispatch(setError(null));
+    setSubmitting(true);
+    setErrorMsg("");
 
     try {
-      // Simulate API call for booking
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
+      const { userId } = await getCurrentUser();
       // Update form data with selected appointment
       dispatch(
         updateFormData({
           selectedAppointment: {
-            id: selectedSlot.id,
-            date: selectedSlot.date,
-            time: selectedSlot.time,
-            provider: selectedSlot.provider,
+            time: selectedAppointment,
           },
         })
       );
+      const { appointmentType, selectedAppointment: appTime } = formData;
 
-      // Here you would typically make an API call to book the appointment
-      console.log("Booking appointment with data:", {
-        ...formData,
-        selectedAppointment: {
-          id: selectedSlot.id,
-          date: selectedSlot.date,
-          time: selectedSlot.time,
-          provider: selectedSlot.provider,
-        },
-      });
+      if (!appointmentType || !(appTime?.time ?? selectedAppointment)) {
+        toast.info(
+          "No user_id nor selected appointment type or time preference!"
+        );
+        return;
+      }
+
+      const newAppointmentParams: CreateAppointmentParams = {
+        userId,
+        dentistId: formData.provider,
+        patientGivenName: formData.firstName,
+        patientLastName: formData.lastName,
+        dateOfBirth: moment(formData.dob).toISOString(),
+        note: formData.notes,
+        appType: appointmentType,
+        prefferedAppointmentDate: moment(formData.datePreference).toISOString(),
+        appointmentTime: appTime?.time ?? selectedAppointment,
+        status: AppointmentStatusType.PENDING,
+        hasInsurance: formData.hasInsurance,
+        insuranceName: formData.insuranceName,
+        insuranceGroupNumber: formData.groupNumber,
+        subscriberId: formData.subscriberId,
+        subscriberName: formData.subscriberName,
+      };
+      console.log(newAppointmentParams);
+      await createAppointment.mutateAsync(newAppointmentParams);
 
       // Show success message and reset form
-      alert("Appointment booked successfully!");
+      toast.success("Appointment booked successfully!");
       dispatch(resetBooking());
-    } catch (error) {
-      dispatch(setError("Failed to book appointment. Please try again."));
+    } catch (error: unknown) {
+      const errMsg = getError(error).message;
+      setErrorMsg(errMsg);
     } finally {
-      dispatch(setSubmitting(false));
+      setSubmitting(false);
     }
   };
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
+  const startOverHandler = () => {
+    if (confirm("Are you sure you want to start over?")) {
+      dispatch(resetBooking());
+    }
   };
 
-  if (isLoading) {
+  const NotSignInAlert = () => (
+    <Alert variant="default">
+      <AlertCircle className="text-amber-500" />
+      <AlertTitle>Please sign in to continue booking.</AlertTitle>
+      <AlertDescription>
+        <p>
+          Click here to{" "}
+          <Link
+            href="/signin?redirect=booking"
+            className="hover:text-sky-600 text-sky-500 underline"
+          >
+            sign in
+          </Link>
+        </p>
+        <ul className="list-inside list-disc text-sm">
+          <li>
+            Be part of our patient portal and enjoy seamless booking process
+          </li>
+          <li>Manage your appointment</li>
+          <li>Get daily updates of our latest health tips</li>
+        </ul>
+      </AlertDescription>
+    </Alert>
+  );
+
+  if (isLoadingAppointment) {
     return (
-      <div className="space-y-6">
+      <div className="space-y-6 ">
         <div className="text-center py-8">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
           <p className="mt-4 text-gray-600">
@@ -178,121 +182,73 @@ export default function Step4Appointments() {
           select one that works best for you.
         </p>
 
-        {error && (
+        {(isErrorAppointment || errorMsg) && (
           <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
-            {error}
+            {isErrorAppointment?.message ?? errorMsg}
           </div>
         )}
 
         {/* Available Appointments */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-          {availableSlots.map((slot) => (
-            <Card
-              key={slot.id}
-              className={`cursor-pointer transition-all ${
-                selectedAppointment === slot.id
-                  ? "ring-2 ring-blue-500 border-blue-500"
-                  : "hover:border-gray-300"
-              }`}
-              onClick={() => handleAppointmentSelect(slot.id)}
-            >
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium">
-                  {formatDate(slot.date)}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
-                  <p className="text-lg font-semibold text-blue-600">
-                    {slot.time}
-                  </p>
-                  <p className="text-sm text-gray-600">Dr. {slot.provider}</p>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span className="text-xs text-green-600">Available</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+          {availableAppointment?.map((slot, index) => (
+            <AppointmentCardSlot
+              key={index}
+              slot={{
+                date: formData.datePreference,
+                time: slot,
+                available: true,
+              }}
+              selectedAppointment={selectedAppointment as string}
+              formatDate={formatDate}
+              handleAppointmentSelect={handleAppointmentSelect}
+            />
           ))}
         </div>
-
-        {availableSlots.length === 0 && (
-          <div className="text-center py-8">
-            <p className="text-gray-600 mb-4">
-              No available appointments match your preferences.
-            </p>
-            <p className="text-sm text-gray-500">
-              Please try adjusting your date, time, or provider preferences.
-            </p>
-          </div>
-        )}
+        {availableAppointment?.length === 0 && <NoAppointment />}
+        {!isSignIn && <NotSignInAlert />}
 
         {/* Navigation and Submit */}
         <div className="flex justify-between pt-6 border-t">
           <Button
             type="button"
             variant="outline"
-            onClick={() => window.history.back()}
+            onClick={() => dispatch(prevStep())}
             className="px-6 py-2"
           >
             Back to Preferences
           </Button>
 
           <div className="flex gap-3">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => dispatch(resetBooking())}
-              className="px-6 py-2"
-            >
-              Start Over
-            </Button>
+            {isSignIn && (
+              <>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={startOverHandler}
+                  className="px-6 py-2"
+                >
+                  Start Over
+                </Button>
 
-            <Button
-              type="button"
-              onClick={handleSubmitBooking}
-              disabled={!selectedAppointment || isSubmitting}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2"
-            >
-              {isSubmitting ? (
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  Booking...
-                </div>
-              ) : (
-                "Book Appointment"
-              )}
-            </Button>
+                <Button
+                  type="button"
+                  onClick={handleSubmitBooking}
+                  disabled={!selectedAppointment || isSubmitting}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2"
+                >
+                  {isSubmitting ? (
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      Booking...
+                    </div>
+                  ) : (
+                    "Book Appointment"
+                  )}
+                </Button>
+              </>
+            )}
           </div>
         </div>
-
-        {/* Summary */}
-        {selectedAppointment && (
-          <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-            <h4 className="font-medium text-blue-900 mb-2">
-              Selected Appointment:
-            </h4>
-            {(() => {
-              const slot = availableSlots.find(
-                (s) => s.id === selectedAppointment
-              );
-              return slot ? (
-                <div className="text-sm text-blue-800">
-                  <p>
-                    <strong>Date:</strong> {formatDate(slot.date)}
-                  </p>
-                  <p>
-                    <strong>Time:</strong> {slot.time}
-                  </p>
-                  <p>
-                    <strong>Provider:</strong> Dr. {slot.provider}
-                  </p>
-                </div>
-              ) : null;
-            })()}
-          </div>
-        )}
       </div>
     </div>
   );

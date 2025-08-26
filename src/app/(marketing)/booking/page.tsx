@@ -1,11 +1,11 @@
 import Layout from "@/app/components/general/layout";
-import BookingForm from "../_components/booking-form";
+import BookingWizard from "../_components/booking-wizard/booking-wizard";
 
 export default function Booking() {
   return (
     <Layout>
       <div className=" ">
-        <BookingForm />
+        <BookingWizard />
       </div>
     </Layout>
   );

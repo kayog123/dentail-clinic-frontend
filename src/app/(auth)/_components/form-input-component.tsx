@@ -9,17 +9,19 @@ import {
   ForgotPasswordFormData,
 } from "../_helper/forgot-pass-validation";
 import { LoginFormData } from "../_helper/signin-validation";
-import {
-  BookingFieldProps,
-  BookingFormData,
-} from "@/app/(marketing)/_helper/form-validation/booking-validation";
+import { BookingFormData } from "@/app/(marketing)/_helper/form-validation/booking-validation";
+import { UserDetailsFormData } from "@/app/(marketing)/_helper/form-validation/user-details-validation";
 
-export type InputFormRegisterProps = UseFormRegister<
+export type AuthFormDataType =
   | SignupFormData
   | LoginFormData
   | ForgotPasswordFormData
-  | ForgotNewPassFormData
-  | BookingFormData
+  | ForgotNewPassFormData;
+
+export type BookingFormDataType = BookingFormData | UserDetailsFormData;
+
+export type InputFormRegisterProps = UseFormRegister<
+  AuthFormDataType | BookingFormDataType
 >;
 
 interface FormInputFormProps {

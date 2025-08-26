@@ -7,9 +7,6 @@ import {
   LucideCloudLightning,
   LucideStar,
   LucideShield,
-  LucideHeart,
-  LucideClock,
-  LucideUsers,
 } from "lucide-react";
 export const PHONE_NUMBER = "(555) 123-4567";
 export const items = [
@@ -82,3 +79,13 @@ export const MENU_LIST = [
     href: "#office",
   },
 ];
+export const WIZARD_STEPS = [
+  { id: 1, title: "Patient Information", description: "Basic details" },
+  { id: 2, title: "Insurance", description: "Dental insurance info" },
+  { id: 3, title: "Preferences", description: "Appointment preferences" },
+  { id: 4, title: "Book Appointment", description: "Select time slot" },
+];
+
+export const MORNING_PREFERRENCE = "MORNING";
+export const AFTERNOON_PREFERRENCE = "AFTERNOON";
+export const ANY_TIME_PREFERRENCE = "ANYTIME";

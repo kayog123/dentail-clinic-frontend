@@ -15,9 +15,18 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { signIn } from "aws-amplify/auth";
 import { getError } from "@/app/lib/error";
+import { use } from "react";
 
-export default function LoginPage() {
+type Params = Promise<{ slug: string }>;
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
+
+export default function LoginPage(props: {
+  params: Params;
+  searchParams: SearchParams;
+}) {
   const router = useRouter();
+  const searchParams = use(props.searchParams);
+  const redirect_url = searchParams.redirect as string | undefined;
   const {
     register,
     handleSubmit,
@@ -44,7 +53,7 @@ export default function LoginPage() {
         toast.success("Login successful!", {
           description: "You can now access your dashboard.",
         });
-        router.push("/dashboard");
+        router.push(redirect_url ?? "/dashboard");
       }
     } catch (error: unknown) {
       const errMsg = getError(error).message;
