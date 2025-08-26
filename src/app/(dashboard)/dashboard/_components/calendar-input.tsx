@@ -42,6 +42,7 @@ export default function CalendarInput({
               setDate(dateSelected);
               setOpen(false);
             }}
+            disabled={(date) => date < new Date()} // Disable past dates
             className="w-60"
           />
         </PopoverContent>

@@ -7,6 +7,11 @@ export const MENU_ITEMS = [
     icon: Home,
   },
   {
+    title: "Appointments",
+    href: "/appointments",
+    icon: Calendar,
+  },
+  {
     title: "Notifications",
     href: "/notifications",
     icon: Bell,

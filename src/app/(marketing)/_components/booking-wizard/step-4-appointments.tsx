@@ -115,7 +115,6 @@ export default function Step4Appointments() {
         subscriberId: formData.subscriberId,
         subscriberName: formData.subscriberName,
       };
-      console.log(newAppointmentParams);
       await createAppointment.mutateAsync(newAppointmentParams);
 
       // Show success message and reset form

@@ -4,6 +4,7 @@ import UpcomingAppointmentsV2 from "./_components/upcoming-appointment-v2";
 import { getCurrentUser } from "aws-amplify/auth";
 import { Amplify } from "aws-amplify";
 import { awsConfig } from "@/app/lib/aws-config";
+import { CreateAppointment } from "./_components/create-appointment";
 
 // Mock data for demonstration
 Amplify.configure(awsConfig);
@@ -19,12 +20,7 @@ export default async function DashboardPage() {
             practice today.
           </p>
         </div>
-        <div className="flex items-center space-x-2">
-          <Button>
-            <Users className="mr-2 h-4 w-4" />
-            Create Appointments
-          </Button>
-        </div>
+        <div className="flex items-center space-x-2"></div>
       </div>
 
       {/* Main Content Grid */}
