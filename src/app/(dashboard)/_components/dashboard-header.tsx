@@ -36,13 +36,13 @@ export function DashboardHeader() {
     <header className="flex h-16 items-center justify-between border-b bg-card px-6">
       {/* Search */}
       <div className="flex items-center space-x-4">
-        <div className="relative w-96">
+        {/* <div className="relative w-96">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Search patients, appointments, records..."
             className="pl-10"
           />
-        </div>
+        </div> */}
       </div>
 
       {/* Right side actions */}

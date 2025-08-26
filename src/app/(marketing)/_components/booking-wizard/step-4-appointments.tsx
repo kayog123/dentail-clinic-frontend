@@ -47,8 +47,8 @@ export default function Step4Appointments() {
     error: isErrorAppointment,
   } = useAppointmentDentist({
     dentistId: formData.provider,
-    startOfDay: moment(formData.datePreference).toDate(),
-    endOfDay: moment(formData.datePreference).add(1, "day").toDate(),
+    startOfDay: moment(formData.datePreference).startOf("day").toDate(),
+    endOfDay: moment(formData.datePreference).endOf("day").toDate(),
     timePreference: formData.timePreference as TypePreferrenceProps,
   });
 

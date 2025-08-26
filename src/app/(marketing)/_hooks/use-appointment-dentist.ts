@@ -45,15 +45,18 @@ export const useAppointmentDentist = ({
   timePreference,
 }: {
   dentistId: string;
-  startOfDay: Date;
-  endOfDay: Date;
+  startOfDay: Date | undefined;
+  endOfDay: Date | undefined;
   timePreference: "MORNING" | "AFTERNOON" | "ANYTIME";
 }) => {
   const { data, isLoading, error } = useQuery({
     queryKey: ["dentists", dentistId, startOfDay, endOfDay],
-    queryFn: () => fetchDentistList(dentistId, startOfDay, endOfDay),
+    queryFn: async () =>
+      await fetchDentistList(dentistId, startOfDay!, endOfDay!),
     staleTime: 5 * 60 * 1000, //5 mins
+    enabled: !!dentistId && !!startOfDay && !!endOfDay,
   });
+
   const occupiedSlot = data?.map(
     (item: DentistDayAppointmentItem) => item.appointmentTime
   );

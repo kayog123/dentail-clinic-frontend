@@ -163,7 +163,7 @@ export default function ProfileForm() {
   return (
     <div className="w-xl space-y-6">
       {/* Profile Picture Section */}
-      <Card>
+      {/* <Card>
         <CardHeader>
           <CardTitle className="text-xl">Profile Picture</CardTitle>
         </CardHeader>
@@ -185,16 +185,14 @@ export default function ProfileForm() {
                   <User className="w-16 h-16 text-gray-400" />
                 )}
               </div>
-
-              {/* Upload Button */}
+ 
               <label
                 htmlFor="profile-picture"
                 className="absolute bottom-0 right-0 bg-sky-600 text-white p-2 rounded-full cursor-pointer hover:bg-sky-700 transition-colors shadow-lg hover:shadow-xl"
               >
                 <Camera className="w-4 h-4" />
               </label>
-
-              {/* Remove Button */}
+ 
               {profileImage && (
                 <button
                   type="button"
@@ -219,7 +217,7 @@ export default function ProfileForm() {
             </p>
           </div>
         </CardContent>
-      </Card>
+      </Card> */}
 
       {/* Personal Information Form */}
       <Card>

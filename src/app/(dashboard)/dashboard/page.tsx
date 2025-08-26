@@ -1,12 +1,13 @@
 import { Button } from "@/app/components/ui/button";
 import { Calendar, Users } from "lucide-react";
 import UpcomingAppointmentsV2 from "./_components/upcoming-appointment-v2";
-import ReactQueryExample from "./_components/react-query-example";
-import UserInfoExample from "./_components/user-info-example";
+import { getCurrentUser } from "aws-amplify/auth";
+import { Amplify } from "aws-amplify";
+import { awsConfig } from "@/app/lib/aws-config";
 
 // Mock data for demonstration
-
-export default function DashboardPage() {
+Amplify.configure(awsConfig);
+export default async function DashboardPage() {
   return (
     <div className="space-y-6">
       {/* Page Header */}
@@ -19,27 +20,15 @@ export default function DashboardPage() {
           </p>
         </div>
         <div className="flex items-center space-x-2">
-          <Button variant="outline">
-            <Calendar className="mr-2 h-4 w-4" />
-            Schedule Appointment
-          </Button>
           <Button>
             <Users className="mr-2 h-4 w-4" />
-            Add Patient
+            Create Appointments
           </Button>
         </div>
       </div>
 
-      {/* Stats Grid */}
-      {/* <DashboardStatsGrid /> */}
       {/* Main Content Grid */}
       <UpcomingAppointmentsV2 />
-
-      {/* User Info Example */}
-      {/*   <UserInfoExample />*/}
-
-      {/* React Query Example */}
-      <ReactQueryExample />
     </div>
   );
 }
