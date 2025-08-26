@@ -149,7 +149,7 @@ export default function LoginPage(props: {
           {isSubmitting ? "Signing In..." : "Sign In"}
         </button>
       </form>
-      <SocialLoginSso />
+      {/* <SocialLoginSso /> */}
       {/* Sign Up Link */}
       <div className="mt-4 text-center">
         <p className="text-sm text-gray-600">

@@ -256,7 +256,7 @@ export default function SignupPage() {
         </button>
       </form>
 
-      <SocialLoginSso />
+      {/* <SocialLoginSso /> */}
 
       {/* Sign In Link */}
       <div className="mt-4 text-center">

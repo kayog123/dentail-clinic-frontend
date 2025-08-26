@@ -119,7 +119,6 @@ export default function Step4Appointments() {
       await createAppointment.mutateAsync(newAppointmentParams);
 
       // Show success message and reset form
-      toast.success("Appointment booked successfully!");
       dispatch(resetBooking());
     } catch (error: unknown) {
       const errMsg = getError(error).message;
