@@ -6,35 +6,35 @@ This is a frontend application built with a modern tech stack for scalability, p
 
 [Next.js](https://nextjs.org): A React framework for server-side rendering, static site generation, and API routes, providing a robust foundation for building fast and SEO-friendly web applications.
 
-# Styling and theming
+### Styling and theming
 
 [Tailwind CSS](https://tailwindcss.com): A utility-first CSS framework for rapidly building custom designs.
 
-# Authentication and authorization
+#### Authentication and authorization
 
 [AWS Cognito](https://aws.amazon.com/pm/cognito/): Used for secure user authentication, authorization, and user management, enabling seamless and scalable identity management.
 
-# Caching and optimization improvements
+#### Caching and optimization improvements
 
 [AWS Lambda](https://aws.amazon.com/pm/lambda/): Serverless functions for handling backend logic, allowing cost-efficient and scalable API operations without managing servers.
 
-# Caching and optimization improvements
+#### Caching and optimization improvements
 
 [React Query](https://tanstack.com/query/latest): A powerful library for data fetching, caching, and synchronization, optimizing performance by reducing unnecessary network requests.
 
-# State management
+#### State management
 
 [Redux Toolkit](https://redux-toolkit.js.org/): A state management library for predictable and efficient management of application state, simplifying complex state logic.
 
-# Deployment
+#### Deployment
 
 [AWS Amplify](https://aws.amazon.com/amplify/): A state management library for predictable and efficient management of application state, simplifying complex state logic.
 
-# Assumptions
+#### Assumptions
 
 - I chose this technology stack for its scalability, high performance, and ease of maintenance. It is widely adopted by developers, making it straightforward to understand and implement, with popular tools such as Tailwind CSS, Redux, and React Query. This ensures the code is accessible, maintainable, and well-suited for integration into your project.
 
-# Getting Started on building
+#### Getting Started on building
 
 The was build
 
