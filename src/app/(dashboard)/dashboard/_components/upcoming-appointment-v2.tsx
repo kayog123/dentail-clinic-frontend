@@ -92,8 +92,10 @@ export default function UpcomingAppointmentsV2() {
         <CardContent>
           <div className="space-y-4 lg:min-h-60 flex items-center justify-center">
             {isLoading && <p>Loading...</p>}
-            {!isLoading && error && <p>{error.message}</p>}
-            {!isLoading && (
+            {!isLoading && error && (
+              <p className="text-red-500">{error.message}</p>
+            )}
+            {!isLoading && !error && (
               <Calendar
                 localizer={localizer}
                 events={
