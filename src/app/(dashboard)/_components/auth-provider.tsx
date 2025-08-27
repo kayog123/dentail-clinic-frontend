@@ -6,7 +6,6 @@ import { awsConfig } from "@/app/lib/aws-config";
 import { getCurrentUser } from "aws-amplify/auth";
 import { useEffect, useState } from "react";
 import FullLoadingScreen from "@/app/components/common/full-loading-screen";
-import { useRouter } from "next/navigation";
 import UnauthorizedAccess from "@/app/components/common/unauthorized-access";
 
 Amplify.configure(awsConfig);
