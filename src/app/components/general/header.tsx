@@ -12,7 +12,7 @@ export default function Header() {
 
   return (
     <header className="bg-white">
-      <Wrapper className="flex items-center justify-between py-4 text-black">
+      <Wrapper className="flex items-center justify-between py-4 px-4 text-black  ">
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center">
             <Link href="/" className="text-xl font-bold text-sky-600">
@@ -49,7 +49,7 @@ export default function Header() {
               // User is not logged in - show sign in button
               <Link
                 href="/signin"
-                className="bg-gradient-to-r from-sky-600 to-cyan-600 rounded-full font-[300] text-white px-4 py-2 flex items-center gap-2 hover:from-sky-700 hover:to-cyan-700 transition-all"
+                className="hidden  md:flex bg-gradient-to-r from-sky-600 to-cyan-600 rounded-full font-[300] text-white px-4 py-2  items-center gap-2 hover:from-sky-700 hover:to-cyan-700 transition-all"
               >
                 <span>Sign In</span>
                 <LucideArrowRight className="h-4 w-4" />

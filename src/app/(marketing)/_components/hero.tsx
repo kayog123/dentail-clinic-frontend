@@ -13,10 +13,7 @@ export default function Hero() {
       className="mx-auto max-w-7xl px-4 sm:px-6 pt-8 sm:pt-12 md:pt-16 lg:pt-20 pb-8 sm:pb-12 md:pb-16"
       data-oid="qjk_e.q"
     >
-      <div
-        className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 items-center"
-        data-oid="s2siifb"
-      >
+      <div className="flex flex-col lg:flex-row gap-6 lg:gap-10 items-center  ">
         <HeroBannerLeft
           titleHeader="Gentle, modern care for all ages"
           title="Expert dental care for your entire family"

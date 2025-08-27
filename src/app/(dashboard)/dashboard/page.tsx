@@ -1,10 +1,6 @@
-import { Button } from "@/app/components/ui/button";
-import { Calendar, Users } from "lucide-react";
 import UpcomingAppointmentsV2 from "./_components/upcoming-appointment-v2";
-import { getCurrentUser } from "aws-amplify/auth";
 import { Amplify } from "aws-amplify";
 import { awsConfig } from "@/app/lib/aws-config";
-import { CreateAppointment } from "./_components/create-appointment";
 
 // Mock data for demonstration
 Amplify.configure(awsConfig);
