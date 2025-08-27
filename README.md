@@ -1,4 +1,4 @@
-Dental Clinic Web Application
+# Dental Clinic Web Application
 
 This is a frontend application built with a modern tech stack for scalability, performance, and maintainability.
 
