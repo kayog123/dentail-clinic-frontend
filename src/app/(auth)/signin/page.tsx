@@ -12,21 +12,16 @@ import FormInputComponent, {
   InputFormRegisterProps,
 } from "../_components/form-input-component";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "aws-amplify/auth";
 import { getError } from "@/app/lib/error";
 import { use } from "react";
 
-type Params = Promise<{ slug: string }>;
-type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
-
-export default function LoginPage(props: {
-  params: Params;
-  searchParams: SearchParams;
-}) {
+export default function LoginPage() {
   const router = useRouter();
-  const searchParams = use(props.searchParams);
-  const redirect_url = searchParams.redirect as string | undefined;
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect");
+  const redirect_url = redirect;
   const {
     register,
     handleSubmit,

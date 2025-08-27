@@ -15,7 +15,7 @@ import VerifyEmailAccount from "./form-steps/verify-email-account";
 import VerificationComplete from "./form-steps/verification-complete";
 import TwoFactorAuthentication from "./form-steps/two-factor-authentication";
 import NewPassword from "./form-steps/new-password";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { ForgotNewPassFormData } from "../_helper/forgot-pass-validation";
 import { confirmResetPassword, resetPassword } from "aws-amplify/auth";
 import { Amplify } from "aws-amplify";
@@ -25,20 +25,15 @@ import { getError } from "@/app/lib/error";
 import { toast } from "sonner";
 
 type FormUiStateType = "reset_form" | "set_password" | "success" | "verify";
-type Params = Promise<{ slug: string }>;
-type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
 Amplify.configure(awsConfig);
 
-export default function ForgotPasswordPage(props: {
-  params: Params;
-  searchParams: SearchParams;
-}) {
+export default function ForgotPasswordPage() {
   const router = useRouter();
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const searchParams = use(props.searchParams);
-  const emailParams = searchParams.email as string | undefined;
-  const stateParams = searchParams.state as string | undefined;
+  const searchParams = useSearchParams();
+  const emailParams = searchParams.get("email");
+  const stateParams = searchParams.get("state");
   const [newPassword, setNewPassword] = useState<string>("");
   const [email, setEmail] = useState<string>(emailParams ?? "");
   const VERIFY_EMAIL_FORM_STATE = "reset_form";

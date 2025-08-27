@@ -11,19 +11,14 @@ import { awsConfig } from "@/app/lib/aws-config";
 import { useRouter } from "next/navigation";
 import { getError } from "@/app/lib/error";
 import { AUTH_SIGNUP_DONE } from "../_utils/const";
+import { useSearchParams } from "next/navigation";
 
 Amplify.configure(awsConfig);
 
-type Params = Promise<{ slug: string }>;
-type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
-export default function ConfirmAccount(props: {
-  params: Params;
-  searchParams: SearchParams;
-}) {
+export default function ConfirmAccount() {
+  const searchParams = useSearchParams();
+  const email = searchParams.get("email");
   const router = useRouter();
-  const searchParams = use(props.searchParams);
-  const email = searchParams.email as string | undefined;
-  const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
   async function confirmSignUpUser({
     email,
@@ -50,7 +45,6 @@ export default function ConfirmAccount(props: {
       if (!email) {
         throw new Error("Email not found");
       }
-      setIsProcessing(true);
 
       const confirmSignUpNextStep = await confirmSignUpUser({
         email,
@@ -74,7 +68,6 @@ export default function ConfirmAccount(props: {
       console.log(error);
       toast.error(getError(error).message);
     }
-    setIsProcessing(false);
   }
 
   function setupComplete() {
