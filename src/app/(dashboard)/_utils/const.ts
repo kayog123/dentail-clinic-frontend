@@ -11,11 +11,11 @@ export const MENU_ITEMS = [
     href: "/appointments",
     icon: Calendar,
   },
-  {
-    title: "Notifications",
-    href: "/notifications",
-    icon: Bell,
-  },
+  // {
+  //   title: "Notifications",
+  //   href: "/notifications",
+  //   icon: Bell,
+  // },
   {
     title: "Settings",
     href: "/settings/profile",

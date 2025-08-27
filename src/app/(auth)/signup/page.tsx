@@ -42,7 +42,7 @@ async function signUpUser(data: SignupFormData) {
     return signUpNextStep;
   } catch (error: unknown) {
     console.log("Failed to create account", error);
-    throw new Error(`Create account failed! Please try again later!`);
+    throw new Error(getError(error).message);
   }
 }
 export default function SignupPage() {

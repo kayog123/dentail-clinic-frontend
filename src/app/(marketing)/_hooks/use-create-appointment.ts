@@ -72,7 +72,9 @@ export function useCreateAppointment() {
       toast.success(
         "Appointment created successfully! See your upcoming appointment on the dashboard"
       );
-      queryClient.invalidateQueries({ queryKey: ["appointments"] });
+      queryClient.invalidateQueries({
+        queryKey: ["appointments/list"],
+      });
     },
     onError: (error: unknown) => {
       console.error("Failed to delete appointment:", getError(error).message);
