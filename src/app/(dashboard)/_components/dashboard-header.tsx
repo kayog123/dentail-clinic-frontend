@@ -24,7 +24,7 @@ export function DashboardHeader() {
   const logoutUserHandler = async () => {
     setShowUserMenu(false);
     await signOutUser();
-    redirect("signin");
+    redirect("/signin");
   };
 
   // Display name logic
