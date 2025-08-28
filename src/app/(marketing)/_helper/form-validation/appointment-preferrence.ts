@@ -21,7 +21,7 @@ export const preferencesSchema = yup.object({
     )
     .required("Appointment type is required"),
   datePreference: yup.string().required("Date preference is required"),
-  provider: yup.string().default(""),
+  provider: yup.string().default("").required("Provider is required"),
   timePreference: yup
     .string()
     .oneOf([MORNING_PREFERRENCE, AFTERNOON_PREFERRENCE, ANY_TIME_PREFERRENCE])
